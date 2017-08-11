@@ -1,0 +1,35 @@
+buildscript {
+    repositories {
+        mavenCentral()
+//        jcenter()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.1.RELEASE")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+
+jar {
+    baseName = 'mevalidator'
+}
+
+apply from: "https://raw.githubusercontent.com/mental-soft/gradle-config/master/global-config-jar.gradle"
+
+dependencies {
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+//
+//    compile 'com.teammental:mebuilder:1.+'
+//    compile 'com.teammental:memapper:1.+'
+
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile 'com.teammental:mebuilder:+'
+}
