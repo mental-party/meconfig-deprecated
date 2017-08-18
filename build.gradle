@@ -1,10 +1,10 @@
 buildscript {
     repositories {
-        mavenCentral()
-//        jcenter()
+        jcenter()
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.1.RELEASE")
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
     }
 }
 
@@ -19,10 +19,6 @@ apply from: "https://raw.githubusercontent.com/mental-soft/gradle-config/master/
 
 dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
-//
-//    compile 'com.teammental:mebuilder:1.+'
-//    compile 'com.teammental:memapper:1.+'
-
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
 }
 
@@ -32,4 +28,88 @@ repositories {
 
 dependencies {
     compile 'com.teammental:mebuilder:+'
+}
+
+
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'maven-publish'
+
+bintray {
+    user = project.hasProperty('bintray-user') ? project.property('bintray-user') : System.getenv('bintray-user')
+    key = project.hasProperty('bintray-key') ? project.property('bintray-key') : System.getenv('bintray-key')
+
+    publications = ['BintrayPublication']
+    pkg {
+        repo = 'meparty'
+        name = 'com.teammental.mevalidator'
+        desc = 'Mental Soft Java Bean Validation Package'
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/mental-party/mevalidator.git'
+        userOrg = 'mental-soft'
+        labels = ['mapper', 'java', 'generic']
+        publicDownloadNumbers = true
+        version {
+            name = System.getProperty('bambooPublishNumber')
+            desc = 'Mental Java Bean Validation Library'
+        }
+    }
+}
+
+
+// Create the pom configuration:
+def pomConfig = {
+    licenses {
+        license {
+            name "The Apache Software License, Version 2.0"
+            url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+            distribution "repo"
+        }
+    }
+    developers {
+        developer {
+            id "coskundeniz89"
+            name "Coşkun Deniz"
+            email "coskundeniz1989@gmail.com"
+        }
+    }
+
+    scm {
+        url "https://github.com/mental-party/mevalidator"
+    }
+}
+
+// Create the publication with the pom configuration:
+publishing {
+    publications {
+        BintrayPublication(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+            groupId 'com.teammental'
+            artifactId 'mevalidator'
+            version System.getProperty('bambooPublishNumber')
+            pom.withXml {
+                def root = asNode()
+                root.appendNode('description', 'Mental Java Bean Validation Library')
+                root.appendNode('name', 'Mental Validator')
+                root.appendNode('url', 'https://github.com/mental-party/mevalidator')
+                root.children().last() + pomConfig
+            }
+        }
+    }
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
 }
