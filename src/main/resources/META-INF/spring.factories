@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.teammental.mevalidator.handler.rest.NotFoundRestHandler,\
+  com.teammental.mevalidator.handler.rest.ValidationErrorRestHandler
