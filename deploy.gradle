@@ -49,6 +49,11 @@ def pomConfig = {
             id "er-han"
             name "Erhan KARAKAYA"
             email "erhan277@gmail.com"
+        },
+        developer {
+            id "coskundeniz89"
+            name "Coşkun DENİZ"
+            email "coskundeniz1989@gmail.com"
         }
     }
 
