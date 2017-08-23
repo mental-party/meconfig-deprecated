@@ -1,4 +1,4 @@
-package com.teammental.mevalidator.exception;
+package com.teammental.meconfig.exception;
 
 public class NotFoundException extends Exception {
 }

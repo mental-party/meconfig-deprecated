@@ -1,7 +1,7 @@
-package com.teammental.mevalidator.handler.rest;
+package com.teammental.meconfig.handler.rest;
 
-import com.teammental.mevalidator.dto.FieldErrorDto;
-import com.teammental.mevalidator.dto.ValidationResultDto;
+import com.teammental.meconfig.dto.FieldErrorDto;
+import com.teammental.meconfig.dto.ValidationResultDto;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Configuration
 @ConditionalOnWebApplication
-@ConditionalOnProperty(name = "enable-rest-handler", prefix = "com.teammental.mevalidator",
+@ConditionalOnProperty(name = "enable-rest-handler", prefix = "com.teammental.meconfig",
     havingValue = "true", matchIfMissing = true)
 @RestControllerAdvice
 public class ValidationErrorRestHandler {

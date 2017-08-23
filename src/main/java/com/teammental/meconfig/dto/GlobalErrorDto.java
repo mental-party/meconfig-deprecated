@@ -1,4 +1,4 @@
-package com.teammental.mevalidator.dto;
+package com.teammental.meconfig.dto;
 
 public class GlobalErrorDto {
   private String message;

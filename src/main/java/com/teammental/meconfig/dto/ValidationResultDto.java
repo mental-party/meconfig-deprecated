@@ -1,4 +1,4 @@
-package com.teammental.mevalidator.dto;
+package com.teammental.meconfig.dto;
 
 import java.util.List;
 
