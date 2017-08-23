@@ -1,0 +1,11 @@
+language: Java
+before_install:
+ - chmod +x gradlew
+jobs:
+  include:
+    - stage: build
+      script: ./gradlew build
+    - stage: generatePomFile
+      script: ./gradlew generatePomFileForBintrayPublicationPublication
+    - stage: deploy
+      script: ./gradlew -Pbintray-user=coskundeniz -Pbintray-key=a407ffcdf75fb382aee184d412c6086f4075ceff bintrayUpload -x clean
