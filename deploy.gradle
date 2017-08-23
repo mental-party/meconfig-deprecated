@@ -1,0 +1,92 @@
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'maven-publish'
+
+
+def packageDescription = 'Spring Boot configurations'
+def packageName = 'com.teammental.meconfig'
+def packageTitle = 'Mental Configurations'
+def repoUrl = 'https://github.com/mental-party/meconfig'
+def repoVcsUrl = 'https://github.com/mental-party/mestarter.git'
+def releaseVersion = '0'
+def publishVersion = releaseVersion + '.' + (System.getenv("TRAVIS_BUILD_NUMBER") ?: '0')
+def packageLabels = ['spring-boot', 'configurations', 'java']
+
+bintray {
+    user = project.hasProperty('bintray-user') ? project.property('bintray-user') : System.getenv('bintray-user')
+    key = project.hasProperty('bintray-key') ? project.property('bintray-key') : System.getenv('bintray-key')
+
+
+    publications = ['BintrayPublication']
+    pkg {
+        repo = 'meparty'
+        name = packageName
+        desc = packageDescription
+        licenses = ['Apache-2.0']
+        vcsUrl = repoVcsUrl
+        userOrg = 'mental-soft'
+        labels = packageLabels
+        publicDownloadNumbers = true
+        version {
+            name = publishVersion
+            desc = packageDescription
+        }
+    }
+}
+
+// Create the pom configuration:
+def pomConfig = {
+    licenses {
+        license {
+            name "The Apache Software License, Version 2.0"
+            url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+            distribution "repo"
+        }
+    }
+    developers {
+        developer {
+            id "er-han"
+            name "Erhan KARAKAYA"
+            email "erhan277@gmail.com"
+        }
+    }
+
+    scm {
+        url repoUrl
+    }
+}
+
+// Create the publication with the pom configuration:
+publishing {
+    publications {
+        BintrayPublication(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+            groupId 'com.teammental'
+            artifactId 'mestarter'
+            version publishVersion
+            pom.withXml {
+                def root = asNode()
+                root.appendNode('description', packageDescription)
+                root.appendNode('name', packageTitle)
+                root.appendNode('url', repoUrl)
+                root.children().last() + pomConfig
+            }
+        }
+    }
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}

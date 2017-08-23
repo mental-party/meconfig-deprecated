@@ -1,5 +1,5 @@
-# MeValidator
+# meconfig
 
-## A simple Java Bean validator library with Spring Boot web handlers
+## Spring Auto-Configurations
 
 ### Currently not release yet for production.
