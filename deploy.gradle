@@ -6,10 +6,12 @@ def packageDescription = 'Spring Boot configurations'
 def packageName = 'com.teammental.meconfig'
 def packageTitle = 'Mental Configurations'
 def repoUrl = 'https://github.com/mental-party/meconfig'
-def repoVcsUrl = 'https://github.com/mental-party/mestarter.git'
+def repoVcsUrl = 'https://github.com/mental-party/meconfig.git'
 def releaseVersion = '0'
 def publishVersion = releaseVersion + '.' + (System.getenv("TRAVIS_BUILD_NUMBER") ?: '0')
 def packageLabels = ['spring-boot', 'configurations', 'java']
+def packageGroupId = 'com.teammental'
+def packageArtifactId = 'meconfig'
 
 bintray {
     user = project.hasProperty('bintray-user') ? project.property('bintray-user') : System.getenv('bintray-user')
@@ -62,8 +64,8 @@ publishing {
             from components.java
             artifact sourcesJar
             artifact javadocJar
-            groupId 'com.teammental'
-            artifactId 'mestarter'
+            groupId packageGroupId
+            artifactId packageArtifactId
             version publishVersion
             pom.withXml {
                 def root = asNode()
