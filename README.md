@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/mental-party/meconfig.svg?branch=master)](https://travis-ci.org/mental-party/meconfig)
+
 # meconfig
 
 ## Spring Auto-Configurations
