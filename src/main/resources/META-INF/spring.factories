@@ -1,3 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.teammental.meconfig.handler.rest.NotFoundRestHandler,\
-  com.teammental.meconfig.handler.rest.ValidationErrorRestHandler
+  com.teammental.meconfig.handler.rest.ValidationErrorRestHandler,\
+  com.teammental.meconfig.cas.CasSecurityAutoConfiguration
