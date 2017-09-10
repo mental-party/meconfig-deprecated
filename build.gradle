@@ -9,6 +9,9 @@ apply from: "https://raw.githubusercontent.com/mental-soft/gradle-config/master/
 dependencies {
     compile group: 'org.springframework', name: 'spring-web', version: '4.3.10.RELEASE'
     compile group: 'org.springframework.boot', name: 'spring-boot-autoconfigure', version: '1.5.6.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '1.5.6.RELEASE'
+
+    compile 'com.teammental:memapper:2.3'
 
     compile group: 'com.kakawait', name: 'spring-security-cas-extension', version: '0.5.0'
     compile group: 'org.projectlombok', name: 'lombok', version: '1.16.18'
