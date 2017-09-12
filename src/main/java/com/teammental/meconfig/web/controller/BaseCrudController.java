@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.teammental.meconfig.bll.service.BaseCrudService;
-import com.teammental.meconfig.dto.Dto;
 import com.teammental.meconfig.dto.IdDto;
 import com.teammental.meconfig.exception.NotFoundException;
 import org.springframework.http.HttpStatus;

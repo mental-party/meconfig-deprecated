@@ -1,18 +1,22 @@
 package com.teammental.meconfig.bll.service;
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.Optional;
-
 import com.teammental.meconfig.dto.Dto;
 import com.teammental.meconfig.dto.IdDto;
 import com.teammental.meconfig.exception.NotFoundException;
 import com.teammental.memapper.MeMapper;
 import com.teammental.memapper.util.mapping.MapByFieldNameUtil;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.validation.annotation.Validated;
 
-public abstract class BaseCrudServiceImpl<DtoT extends IdDto, IdT extends Serializable> implements BaseCrudService<DtoT, IdT> {
+
+public abstract class BaseCrudServiceImpl<DtoT extends IdDto, IdT extends Serializable>
+    implements BaseCrudService<DtoT, IdT> {
+
   protected abstract JpaRepository getRepository();
 
   protected abstract Class<?> getDtoClass();
@@ -21,6 +25,7 @@ public abstract class BaseCrudServiceImpl<DtoT extends IdDto, IdT extends Serial
 
   @Override
   public List<DtoT> findAll() throws NotFoundException {
+
     List entities = getRepository().findAll();
 
     Optional<List<DtoT>> optionalDtos = MeMapper.getMapperFromList(entities)
@@ -35,6 +40,7 @@ public abstract class BaseCrudServiceImpl<DtoT extends IdDto, IdT extends Serial
 
   @Override
   public DtoT findById(IdT id) throws NotFoundException {
+
     Object entity = getRepository().findOne(id);
     Optional<DtoT> dto = MeMapper.getMapperFrom(entity).mapTo(getDtoClass());
 
@@ -47,6 +53,7 @@ public abstract class BaseCrudServiceImpl<DtoT extends IdDto, IdT extends Serial
 
   @Override
   public DtoT insert(@Validated DtoT dto) {
+
     Optional optionalEntity = MeMapper.getMapperFrom(dto)
         .mapTo(getEntityClass());
 
@@ -79,6 +86,7 @@ public abstract class BaseCrudServiceImpl<DtoT extends IdDto, IdT extends Serial
 
   @Override
   public boolean delete(IdT id) throws NotFoundException {
+
     Object entity = getRepository().findOne(id);
     if (entity == null) {
       throw new NotFoundException();
