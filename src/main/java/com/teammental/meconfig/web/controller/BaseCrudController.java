@@ -4,9 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.teammental.meconfig.bll.service.BaseCrudService;
-import com.teammental.meconfig.dto.Dto;
 import com.teammental.meconfig.dto.IdDto;
-import com.teammental.meconfig.exception.NotFoundException;
+import com.teammental.meconfig.exception.entity.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -21,28 +20,25 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 public abstract class BaseCrudController<ServiceT extends BaseCrudService, DtoT extends IdDto, IdT extends Serializable>
     extends BaseController {
 
-  protected abstract ServiceT getBaseCrudService();
-
-  protected abstract String getMappingUrlOfController();
-
+  // region request methods
 
   @GetMapping("")
-  public ResponseEntity getAll() throws NotFoundException {
-    List<DtoT> dtos = getBaseCrudService().findAll();
+  public final ResponseEntity getAll() throws EntityNotFoundException {
+    final List<DtoT> dtos = doGetAll();
     return ResponseEntity.ok(dtos);
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity getById(@PathVariable(value = "id") IdT id) throws NotFoundException {
-    DtoT dto = (DtoT) getBaseCrudService().findById(id);
+  public final ResponseEntity getById(@PathVariable(value = "id") final IdT id) throws EntityNotFoundException {
+    DtoT dto = doGetById(id);
     return ResponseEntity.ok(dto);
   }
 
   @PostMapping()
-  public ResponseEntity insert(@Validated @RequestBody DtoT dto) {
-    dto = (DtoT) getBaseCrudService().insert(dto);
+  public final ResponseEntity insert(@Validated @RequestBody final DtoT dto) {
+    IdT id = doInsert(dto);
     String location = ServletUriComponentsBuilder.fromCurrentContextPath()
-        .path(getMappingUrlOfController() + "/" + dto.getId()).build().toUriString();
+        .path(getMappingUrlOfController() + "/" + id.toString()).build().toUriString();
 
     return ResponseEntity
         .status(HttpStatus.CREATED)
@@ -51,14 +47,14 @@ public abstract class BaseCrudController<ServiceT extends BaseCrudService, DtoT 
   }
 
   @PutMapping()
-  public ResponseEntity update(@Validated @RequestBody DtoT dto) throws NotFoundException {
-    dto = (DtoT) getBaseCrudService().update(dto);
-    return ResponseEntity.ok(dto);
+  public final ResponseEntity update(@Validated @RequestBody final DtoT dto) throws EntityNotFoundException {
+    DtoT dtoResult = doUpdate(dto);
+    return ResponseEntity.ok(dtoResult);
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity delete(@PathVariable(value = "id") IdT id) throws NotFoundException {
-    boolean result = getBaseCrudService().delete(id);
+  public final ResponseEntity delete(@PathVariable(value = "id") final IdT id) throws EntityNotFoundException {
+    boolean result = doDelete(id);
     if (result) {
       return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
@@ -66,4 +62,42 @@ public abstract class BaseCrudController<ServiceT extends BaseCrudService, DtoT 
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
   }
 
+  // endregion
+
+  // region protected methods
+
+  protected List<DtoT> doGetAll() throws EntityNotFoundException {
+    List<DtoT> dtos = getBaseCrudService().findAll();
+    return dtos;
+  }
+
+  protected DtoT doGetById(final IdT id) throws EntityNotFoundException {
+    DtoT dtoResult = (DtoT) getBaseCrudService().findById(id);
+    return dtoResult;
+  }
+
+  protected IdT doInsert(final DtoT dto) {
+    DtoT dtoResult = (DtoT) getBaseCrudService().insert(dto);
+    return (IdT) dtoResult.getId();
+  }
+
+  protected DtoT doUpdate(final DtoT dto) throws EntityNotFoundException {
+    DtoT dtoResult = (DtoT) getBaseCrudService().update(dto);
+    return dtoResult;
+  }
+
+  protected boolean doDelete(final IdT id) throws EntityNotFoundException {
+    boolean result = getBaseCrudService().delete(id);
+    return result;
+  }
+
+  // region abstract methods
+
+  protected abstract ServiceT getBaseCrudService();
+
+  protected abstract String getMappingUrlOfController();
+
+  // endregion abstract methods
+
+  // endregion
 }

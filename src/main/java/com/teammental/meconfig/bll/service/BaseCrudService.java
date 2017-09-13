@@ -4,12 +4,19 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.teammental.meconfig.dto.IdDto;
-import com.teammental.meconfig.exception.NotFoundException;
+import com.teammental.meconfig.exception.entity.EntityDeleteException;
+import com.teammental.meconfig.exception.entity.EntityInsertException;
+import com.teammental.meconfig.exception.entity.EntityNotFoundException;
+import com.teammental.meconfig.exception.entity.EntityUpdateException;
 
 public interface BaseCrudService<DtoT extends IdDto, IdT extends Serializable> {
-  List<DtoT> findAll() throws NotFoundException;
-  DtoT findById(IdT id) throws NotFoundException;
-  DtoT insert(DtoT dto);
-  DtoT update(DtoT dto) throws NotFoundException;
-  boolean delete(IdT id) throws NotFoundException;
+  List<DtoT> findAll() throws EntityNotFoundException;
+
+  DtoT findById(IdT id) throws EntityNotFoundException;
+
+  IdT insert(DtoT dto) throws EntityInsertException;
+
+  DtoT update(DtoT dto) throws EntityNotFoundException, EntityUpdateException;
+
+  boolean delete(IdT id) throws EntityNotFoundException, EntityDeleteException;
 }
