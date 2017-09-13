@@ -5,7 +5,10 @@ import java.util.List;
 
 import com.teammental.meconfig.bll.service.BaseCrudService;
 import com.teammental.meconfig.dto.IdDto;
+import com.teammental.meconfig.exception.entity.EntityDeleteException;
+import com.teammental.meconfig.exception.entity.EntityInsertException;
 import com.teammental.meconfig.exception.entity.EntityNotFoundException;
+import com.teammental.meconfig.exception.entity.EntityUpdateException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -17,7 +20,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-public abstract class BaseCrudController<ServiceT extends BaseCrudService, DtoT extends IdDto, IdT extends Serializable>
+public abstract class BaseCrudController<ServiceT extends BaseCrudService,
+    DtoT extends IdDto, IdT extends Serializable>
     extends BaseController {
 
   // region request methods
@@ -29,13 +33,15 @@ public abstract class BaseCrudController<ServiceT extends BaseCrudService, DtoT 
   }
 
   @GetMapping("/{id}")
-  public final ResponseEntity getById(@PathVariable(value = "id") final IdT id) throws EntityNotFoundException {
+  public final ResponseEntity getById(@PathVariable(value = "id") final IdT id)
+      throws EntityNotFoundException {
     DtoT dto = doGetById(id);
     return ResponseEntity.ok(dto);
   }
 
   @PostMapping()
-  public final ResponseEntity insert(@Validated @RequestBody final DtoT dto) {
+  public final ResponseEntity insert(@Validated @RequestBody final DtoT dto)
+      throws EntityInsertException {
     IdT id = doInsert(dto);
     String location = ServletUriComponentsBuilder.fromCurrentContextPath()
         .path(getMappingUrlOfController() + "/" + id.toString()).build().toUriString();
@@ -47,13 +53,15 @@ public abstract class BaseCrudController<ServiceT extends BaseCrudService, DtoT 
   }
 
   @PutMapping()
-  public final ResponseEntity update(@Validated @RequestBody final DtoT dto) throws EntityNotFoundException {
+  public final ResponseEntity update(@Validated @RequestBody final DtoT dto)
+      throws EntityNotFoundException, EntityUpdateException {
     DtoT dtoResult = doUpdate(dto);
     return ResponseEntity.ok(dtoResult);
   }
 
   @DeleteMapping("/{id}")
-  public final ResponseEntity delete(@PathVariable(value = "id") final IdT id) throws EntityNotFoundException {
+  public final ResponseEntity delete(@PathVariable(value = "id") final IdT id)
+      throws EntityNotFoundException, EntityDeleteException {
     boolean result = doDelete(id);
     if (result) {
       return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
@@ -76,17 +84,17 @@ public abstract class BaseCrudController<ServiceT extends BaseCrudService, DtoT 
     return dtoResult;
   }
 
-  protected IdT doInsert(final DtoT dto) {
+  protected IdT doInsert(final DtoT dto) throws EntityInsertException {
     DtoT dtoResult = (DtoT) getBaseCrudService().insert(dto);
     return (IdT) dtoResult.getId();
   }
 
-  protected DtoT doUpdate(final DtoT dto) throws EntityNotFoundException {
+  protected DtoT doUpdate(final DtoT dto) throws EntityNotFoundException, EntityUpdateException {
     DtoT dtoResult = (DtoT) getBaseCrudService().update(dto);
     return dtoResult;
   }
 
-  protected boolean doDelete(final IdT id) throws EntityNotFoundException {
+  protected boolean doDelete(final IdT id) throws EntityNotFoundException, EntityDeleteException {
     boolean result = getBaseCrudService().delete(id);
     return result;
   }

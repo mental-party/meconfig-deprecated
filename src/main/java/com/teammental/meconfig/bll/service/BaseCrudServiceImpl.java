@@ -12,6 +12,7 @@ import com.teammental.meconfig.exception.entity.EntityNotFoundException;
 import com.teammental.meconfig.exception.entity.EntityUpdateException;
 import com.teammental.memapper.MeMapper;
 import com.teammental.memapper.util.mapping.MapByFieldNameUtil;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -99,6 +100,7 @@ public abstract class BaseCrudServiceImpl<DtoT extends IdDto, IdT extends Serial
   // region protected default methods
 
   protected List<DtoT> doFindAll() throws EntityNotFoundException {
+
     List entities = getRepository().findAll();
 
     Optional<List<DtoT>> optionalDtos = MeMapper.getMapperFromList(entities)
@@ -112,6 +114,7 @@ public abstract class BaseCrudServiceImpl<DtoT extends IdDto, IdT extends Serial
   }
 
   protected DtoT doFindById(final IdT id) throws EntityNotFoundException {
+
     Object entity = getRepository().findOne(id);
     Optional<DtoT> dto = MeMapper.getMapperFrom(entity).mapTo(getDtoClass());
 
@@ -123,6 +126,7 @@ public abstract class BaseCrudServiceImpl<DtoT extends IdDto, IdT extends Serial
   }
 
   protected IdT doInsert(final DtoT dto) throws EntityInsertException {
+
     Optional optionalEntity = MeMapper.getMapperFrom(dto)
         .mapTo(getEntityClass());
 
@@ -159,6 +163,7 @@ public abstract class BaseCrudServiceImpl<DtoT extends IdDto, IdT extends Serial
   }
 
   protected boolean doDelete(final IdT id) throws EntityNotFoundException, EntityDeleteException {
+
     Object entity = getRepository().findOne(id);
     if (entity == null) {
       throw new EntityNotFoundException();
