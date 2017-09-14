@@ -8,4 +8,4 @@ jobs:
     - stage: generatePomFile
       script: ./gradlew generatePomFileForBintrayPublicationPublication
     - stage: deploy
-      script: ./gradlew -Pbintray-user=coskundeniz -Pbintray-key=a407ffcdf75fb382aee184d412c6086f4075ceff bintrayUpload -x clean
+      script: ./gradlew -Pbintray-user=${bintray_user} -Pbintray-key=${bintray_key} bintrayUpload -x clean
