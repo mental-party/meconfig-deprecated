@@ -3,5 +3,4 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.teammental.meconfig.handler.rest.EntityDeleteExceptionRestHandler,\
   com.teammental.meconfig.handler.rest.EntityInsertExceptionRestHandler,\
   com.teammental.meconfig.handler.rest.EntityUpdateExceptionRestHandler,\
-  com.teammental.meconfig.handler.rest.ValidationErrorRestHandler,\
-  com.teammental.meconfig.cas.CasSecurityAutoConfiguration
+  com.teammental.meconfig.handler.rest.ValidationErrorRestHandler
