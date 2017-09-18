@@ -14,12 +14,20 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Configuration
 @ConditionalOnWebApplication
-@ConditionalOnProperty(name = "enable-entity-exceptions-handler", prefix = "com.teammental.meconfig",
-    havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(name = "enable-entity-exceptions-handler",
+    prefix = "com.teammental.meconfig",
+    havingValue = "true",
+    matchIfMissing = true)
 @RestControllerAdvice
 public class EntityUpdateExceptionRestHandler {
-  private static final Logger LOGGER = LoggerFactory.getLogger(EntityUpdateExceptionRestHandler.class);
+  private static final Logger LOGGER = LoggerFactory
+      .getLogger(EntityUpdateExceptionRestHandler.class);
 
+  /**
+   * Handler method for EntityUpdateException type.
+   * @param ex Auto-catched exception
+   * @return HttpStatus=403
+   */
   @ExceptionHandler(EntityUpdateException.class)
   public ResponseEntity processHandler(EntityInsertException ex) {
     LOGGER.debug("EntityInsertException handler process: " + ex.getMessage());

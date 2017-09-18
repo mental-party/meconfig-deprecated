@@ -1,7 +1,6 @@
 package com.teammental.meconfig.exception.entity;
 
-public class EntityDeleteException extends Exception
-{
+public class EntityDeleteException extends Exception {
   public EntityDeleteException() {
     super();
   }

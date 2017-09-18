@@ -13,13 +13,21 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Configuration
 @ConditionalOnWebApplication
-@ConditionalOnProperty(name = "enable-entity-exceptions-handler", prefix = "com.teammental.meconfig",
-    havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(name = "enable-entity-exceptions-handler",
+    prefix = "com.teammental.meconfig",
+    havingValue = "true",
+    matchIfMissing = true)
 @RestControllerAdvice
 public class EntityDeleteExceptionRestHandler {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(EntityDeleteExceptionRestHandler.class);
+  private static final Logger LOGGER = LoggerFactory
+      .getLogger(EntityDeleteExceptionRestHandler.class);
 
+  /**
+   * Handler method for EntityDeleteException type.
+   * @param ex Auto-catched exception
+   * @return HttpStatus=403
+   */
   @ExceptionHandler(EntityDeleteException.class)
   public ResponseEntity processHandler(EntityDeleteException ex) {
     LOGGER.debug("EntityDeleteException handler process: " + ex.getMessage());

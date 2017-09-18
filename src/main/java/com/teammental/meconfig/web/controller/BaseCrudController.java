@@ -1,14 +1,15 @@
 package com.teammental.meconfig.web.controller;
 
-import java.io.Serializable;
-import java.util.List;
-
 import com.teammental.meconfig.bll.service.BaseCrudService;
 import com.teammental.meconfig.dto.IdDto;
 import com.teammental.meconfig.exception.entity.EntityDeleteException;
 import com.teammental.meconfig.exception.entity.EntityInsertException;
 import com.teammental.meconfig.exception.entity.EntityNotFoundException;
 import com.teammental.meconfig.exception.entity.EntityUpdateException;
+
+import java.io.Serializable;
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -26,6 +27,11 @@ public abstract class BaseCrudController<ServiceT extends BaseCrudService,
 
   // region request methods
 
+  /**
+   * Get all DtoT items.
+   * @return HttpStatus=200, List of DtoT objects
+   * @throws EntityNotFoundException if no item found
+   */
   @GetMapping("")
   public final ResponseEntity getAll() throws EntityNotFoundException {
     final List<DtoT> dtos = doGetAll();
@@ -39,6 +45,12 @@ public abstract class BaseCrudController<ServiceT extends BaseCrudService,
     return ResponseEntity.ok(dto);
   }
 
+  /**
+   * Insert a new DtoT item.
+   * @param dto DtoT object to be inserted
+   * @return HttpStatus=201, Location of newly created item's detail url
+   * @throws EntityInsertException if insert transaction fails
+   */
   @PostMapping()
   public final ResponseEntity insert(@Validated @RequestBody final DtoT dto)
       throws EntityInsertException {
@@ -52,6 +64,13 @@ public abstract class BaseCrudController<ServiceT extends BaseCrudService,
         .build();
   }
 
+  /**
+   * Update a DtoT item.
+   * @param dto DtoT object to be updated.
+   * @return HttpStatus=200, DtoT object newly updated
+   * @throws EntityNotFoundException if the item is not already in DB
+   * @throws EntityUpdateException if update process fails
+   */
   @PutMapping()
   public final ResponseEntity update(@Validated @RequestBody final DtoT dto)
       throws EntityNotFoundException, EntityUpdateException {
@@ -59,6 +78,13 @@ public abstract class BaseCrudController<ServiceT extends BaseCrudService,
     return ResponseEntity.ok(dtoResult);
   }
 
+  /**
+   * Delete a DtoT item.
+   * @param id id of the DtoT item to be deleted
+   * @return HttpStatus=204
+   * @throws EntityNotFoundException if the item is not already in DB
+   * @throws EntityDeleteException if delete process fails
+   */
   @DeleteMapping("/{id}")
   public final ResponseEntity delete(@PathVariable(value = "id") final IdT id)
       throws EntityNotFoundException, EntityDeleteException {

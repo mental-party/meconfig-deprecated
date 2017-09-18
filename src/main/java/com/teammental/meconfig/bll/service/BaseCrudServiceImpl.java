@@ -1,9 +1,5 @@
 package com.teammental.meconfig.bll.service;
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.Optional;
-
 import com.teammental.meconfig.dto.Dto;
 import com.teammental.meconfig.dto.IdDto;
 import com.teammental.meconfig.exception.entity.EntityDeleteException;
@@ -13,12 +9,17 @@ import com.teammental.meconfig.exception.entity.EntityUpdateException;
 import com.teammental.memapper.MeMapper;
 import com.teammental.memapper.util.mapping.MapByFieldNameUtil;
 
+import java.io.Serializable;
+import java.util.List;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.validation.annotation.Validated;
 
-public abstract class BaseCrudServiceImpl<DtoT extends IdDto, IdT extends Serializable> implements BaseCrudService<DtoT, IdT> {
+public abstract class BaseCrudServiceImpl<DtoT extends IdDto, IdT extends Serializable>
+    implements BaseCrudService<DtoT, IdT> {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(BaseCrudServiceImpl.class);
 
@@ -32,65 +33,78 @@ public abstract class BaseCrudServiceImpl<DtoT extends IdDto, IdT extends Serial
       LOGGER.debug("findAll of " + getDtoClass().getSimpleName() + " ended");
       return dtos;
     } catch (EntityNotFoundException ex) {
-      LOGGER.error("findAll of " + getDtoClass().getSimpleName() + " throwed a EntityNotFoundException");
+      LOGGER.error("findAll of " + getDtoClass().getSimpleName()
+          + " throwed a EntityNotFoundException");
       throw ex;
     }
   }
 
   @Override
   public final DtoT findById(final IdT id) throws EntityNotFoundException {
-    LOGGER.debug("findById of " + getDtoClass().getSimpleName() + " started, with parameter: id=" + id);
+    LOGGER.debug("findById of " + getDtoClass().getSimpleName()
+        + " started, with parameter: id=" + id);
     try {
       DtoT dto = doFindById(id);
-      LOGGER.debug("findById of " + getDtoClass().getSimpleName() + " ended, with parameter: id=" + id);
+      LOGGER.debug("findById of " + getDtoClass().getSimpleName()
+          + " ended, with parameter: id=" + id);
       return dto;
     } catch (EntityNotFoundException ex) {
-      LOGGER.error("findById of " + getDtoClass().getSimpleName() + " throwed a EntityNotFoundException");
+      LOGGER.error("findById of " + getDtoClass().getSimpleName()
+          + " throwed a EntityNotFoundException");
       throw ex;
     }
   }
 
   @Override
   public final IdT insert(@Validated final DtoT dto) throws EntityInsertException {
-    LOGGER.debug("insert of " + getDtoClass().getSimpleName() + " started, with parameter: dto=" + dto.toString());
+    LOGGER.debug("insert of " + getDtoClass().getSimpleName()
+        + " started, with parameter: dto=" + dto.toString());
     try {
       IdT id = doInsert(dto);
       LOGGER.debug("insert of " + getDtoClass().getSimpleName() + " ended");
       return id;
     } catch (EntityInsertException ex) {
-      LOGGER.error("insert of " + getDtoClass().getSimpleName() + " throwed a EntityInsertException");
+      LOGGER.error("insert of " + getDtoClass().getSimpleName()
+          + " throwed a EntityInsertException");
       throw ex;
     }
   }
 
   @Override
-  public final DtoT update(@Validated final DtoT dto) throws EntityNotFoundException, EntityUpdateException {
-    LOGGER.debug("update of " + getDtoClass().getSimpleName() + " started, with parameter: dto=" + dto.toString());
+  public final DtoT update(@Validated final DtoT dto)
+      throws EntityNotFoundException, EntityUpdateException {
+    LOGGER.debug("update of " + getDtoClass().getSimpleName()
+        + " started, with parameter: dto=" + dto.toString());
     try {
       DtoT dtoResult = doUpdate(dto);
       LOGGER.debug("update of " + getDtoClass().getSimpleName() + " ended");
       return dtoResult;
     } catch (EntityUpdateException ex) {
-      LOGGER.error("update of " + getDtoClass().getSimpleName() + " throwed an EntityUpdateException");
+      LOGGER.error("update of " + getDtoClass().getSimpleName()
+          + " throwed an EntityUpdateException");
       throw ex;
     } catch (EntityNotFoundException ex) {
-      LOGGER.error("update of " + getDtoClass().getSimpleName() + " throwed an EntityNotFoundException");
+      LOGGER.error("update of " + getDtoClass().getSimpleName()
+          + " throwed an EntityNotFoundException");
       throw ex;
     }
   }
 
   @Override
   public final boolean delete(final IdT id) throws EntityNotFoundException, EntityDeleteException {
-    LOGGER.debug("delete of " + getDtoClass().getSimpleName() + " started, with parameter: id=" + id.toString());
+    LOGGER.debug("delete of " + getDtoClass().getSimpleName()
+        + " started, with parameter: id=" + id.toString());
     try {
       boolean result = doDelete(id);
       LOGGER.debug("delete of " + getDtoClass().getSimpleName() + " ended");
       return result;
     } catch (EntityNotFoundException ex) {
-      LOGGER.error("delete of " + getDtoClass().getSimpleName() + " throwed an EntityNotFoundException");
+      LOGGER.error("delete of " + getDtoClass().getSimpleName()
+          + " throwed an EntityNotFoundException");
       throw ex;
     } catch (EntityDeleteException ex) {
-      LOGGER.error("delete of " + getDtoClass().getSimpleName() + " throwed an EntityDeleteException");
+      LOGGER.error("delete of " + getDtoClass().getSimpleName()
+          + " throwed an EntityDeleteException");
       throw ex;
     }
   }
