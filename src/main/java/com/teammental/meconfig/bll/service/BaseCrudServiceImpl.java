@@ -16,7 +16,6 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.validation.annotation.Validated;
 
 public abstract class BaseCrudServiceImpl<DtoT extends IdDto, IdT extends Serializable>
     implements BaseCrudService<DtoT, IdT> {
@@ -56,7 +55,7 @@ public abstract class BaseCrudServiceImpl<DtoT extends IdDto, IdT extends Serial
   }
 
   @Override
-  public final IdT insert(@Validated final DtoT dto) throws EntityInsertException {
+  public final IdT insert(final DtoT dto) throws EntityInsertException {
     LOGGER.debug("insert of " + getDtoClass().getSimpleName()
         + " started, with parameter: dto=" + dto.toString());
     try {
@@ -71,7 +70,7 @@ public abstract class BaseCrudServiceImpl<DtoT extends IdDto, IdT extends Serial
   }
 
   @Override
-  public final DtoT update(@Validated final DtoT dto)
+  public final DtoT update(final DtoT dto)
       throws EntityNotFoundException, EntityUpdateException {
     LOGGER.debug("update of " + getDtoClass().getSimpleName()
         + " started, with parameter: dto=" + dto.toString());
