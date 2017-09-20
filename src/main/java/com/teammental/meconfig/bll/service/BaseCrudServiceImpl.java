@@ -165,14 +165,14 @@ public abstract class BaseCrudServiceImpl<DtoT extends IdDto, IdT extends Serial
     entity = MapByFieldNameUtil.map(dto, entity);
 
     try {
-      entity = getRepository().saveAndFlush(entity);
+      Object resultEntity = getRepository().saveAndFlush(entity);
+      Optional<Dto> optionalDto = MeMapper.getMapperFrom(resultEntity)
+          .mapTo(getDtoClass());
+
+      return (DtoT) optionalDto.get();
     } catch (Exception ex) {
       throw new EntityUpdateException("", ex);
     }
-    Optional<Dto> optionalDto = MeMapper.getMapperFrom(entity)
-        .mapTo(getDtoClass());
-
-    return (DtoT) optionalDto.get();
   }
 
   protected boolean doDelete(final IdT id) throws EntityNotFoundException, EntityDeleteException {
