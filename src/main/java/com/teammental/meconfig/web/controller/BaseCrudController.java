@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 public abstract class BaseCrudController<ServiceT extends BaseCrudService,
     DtoT extends IdDto, IdT extends Serializable>
@@ -29,6 +28,7 @@ public abstract class BaseCrudController<ServiceT extends BaseCrudService,
 
   /**
    * Get all DtoT items.
+   *
    * @return HttpStatus=200, List of DtoT objects
    * @throws EntityNotFoundException if no item found
    */
@@ -47,6 +47,7 @@ public abstract class BaseCrudController<ServiceT extends BaseCrudService,
 
   /**
    * Insert a new DtoT item.
+   *
    * @param dto DtoT object to be inserted
    * @return HttpStatus=201, Location of newly created item's detail url
    * @throws EntityInsertException if insert transaction fails
@@ -55,8 +56,7 @@ public abstract class BaseCrudController<ServiceT extends BaseCrudService,
   public final ResponseEntity insert(@Validated @RequestBody final DtoT dto)
       throws EntityInsertException {
     Serializable id = doInsert(dto);
-    String location = ServletUriComponentsBuilder.fromCurrentContextPath()
-        .path(getMappingUrlOfController() + "/" + id.toString()).build().toUriString();
+    String location = getMappingUrlOfController() + "/" + id.toString();
 
     return ResponseEntity
         .status(HttpStatus.CREATED)
@@ -66,10 +66,11 @@ public abstract class BaseCrudController<ServiceT extends BaseCrudService,
 
   /**
    * Update a DtoT item.
+   *
    * @param dto DtoT object to be updated.
    * @return HttpStatus=200, DtoT object newly updated
    * @throws EntityNotFoundException if the item is not already in DB
-   * @throws EntityUpdateException if update process fails
+   * @throws EntityUpdateException   if update process fails
    */
   @PutMapping()
   public final ResponseEntity update(@Validated @RequestBody final DtoT dto)
@@ -80,10 +81,11 @@ public abstract class BaseCrudController<ServiceT extends BaseCrudService,
 
   /**
    * Delete a DtoT item.
+   *
    * @param id id of the DtoT item to be deleted
    * @return HttpStatus=204
    * @throws EntityNotFoundException if the item is not already in DB
-   * @throws EntityDeleteException if delete process fails
+   * @throws EntityDeleteException   if delete process fails
    */
   @DeleteMapping("/{id}")
   public final ResponseEntity delete(@PathVariable(value = "id") final IdT id)
