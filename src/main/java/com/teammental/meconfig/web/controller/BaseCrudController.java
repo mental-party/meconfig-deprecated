@@ -54,7 +54,7 @@ public abstract class BaseCrudController<ServiceT extends BaseCrudService,
   @PostMapping()
   public final ResponseEntity insert(@Validated @RequestBody final DtoT dto)
       throws EntityInsertException {
-    IdT id = doInsert(dto);
+    Serializable id = doInsert(dto);
     String location = ServletUriComponentsBuilder.fromCurrentContextPath()
         .path(getMappingUrlOfController() + "/" + id.toString()).build().toUriString();
 
