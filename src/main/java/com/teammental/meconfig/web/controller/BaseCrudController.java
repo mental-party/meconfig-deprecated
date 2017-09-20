@@ -110,9 +110,9 @@ public abstract class BaseCrudController<ServiceT extends BaseCrudService,
     return dtoResult;
   }
 
-  protected IdT doInsert(final DtoT dto) throws EntityInsertException {
-    DtoT dtoResult = (DtoT) getBaseCrudService().insert(dto);
-    return (IdT) dtoResult.getId();
+  protected Serializable doInsert(final DtoT dto) throws EntityInsertException {
+    Serializable id = getBaseCrudService().insert(dto);
+    return id;
   }
 
   protected DtoT doUpdate(final DtoT dto) throws EntityNotFoundException, EntityUpdateException {
