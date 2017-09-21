@@ -145,10 +145,10 @@ public abstract class BaseCrudServiceImpl<DtoT extends IdDto, IdT extends Serial
 
     try {
       Object entity = getRepository().saveAndFlush(optionalEntity.get());
-      Optional<Dto> optionalDto = MeMapper.getMapperFrom(entity)
+      Optional<DtoT> optionalDto = MeMapper.getMapperFrom(entity)
           .mapTo(getDtoClass());
 
-      return (IdT) ((IdDto) optionalDto.get()).getId();
+      return (IdT) optionalDto.get().getId();
     } catch (Exception ex) {
       throw new EntityInsertException("", ex);
     }
