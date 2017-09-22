@@ -3,3 +3,4 @@
 build/
 /config/
 *.iml
+out/
