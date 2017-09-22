@@ -1,6 +1,5 @@
 package com.teammental.meconfig.handler.rest;
 
-import com.teammental.meconfig.exception.entity.EntityInsertException;
 import com.teammental.meconfig.exception.entity.EntityUpdateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,8 +28,8 @@ public class EntityUpdateExceptionRestHandler {
    * @return HttpStatus=403
    */
   @ExceptionHandler(EntityUpdateException.class)
-  public ResponseEntity processHandler(EntityInsertException ex) {
-    LOGGER.debug("EntityInsertException handler process: " + ex.getMessage());
+  public ResponseEntity processHandler(EntityUpdateException ex) {
+    LOGGER.debug("EntityUpdateException handler process: " + ex.getMessage());
 
     return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ex.getMessage());
   }
