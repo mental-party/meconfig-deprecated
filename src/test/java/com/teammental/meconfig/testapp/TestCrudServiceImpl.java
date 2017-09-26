@@ -6,7 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TestCrudServiceImpl extends BaseCrudServiceImpl<TestDto, Integer> implements TestCrudService {
+public class TestCrudServiceImpl extends BaseCrudServiceImpl<TestDto, Integer>
+    implements TestCrudService {
 
   @Autowired
   private TestRepository testRepository;

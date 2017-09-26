@@ -1,5 +1,15 @@
 package com.teammental.meconfig.bll.service;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
+
 import com.teammental.meconfig.exception.entity.EntityDeleteException;
 import com.teammental.meconfig.exception.entity.EntityInsertException;
 import com.teammental.meconfig.exception.entity.EntityNotFoundException;
@@ -10,26 +20,20 @@ import com.teammental.meconfig.testapp.TestDto;
 import com.teammental.meconfig.testapp.TestEntity;
 import com.teammental.meconfig.testapp.TestRepository;
 import com.teammental.memapper.MeMapper;
+
 import java.util.Arrays;
 import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.when;
-
+@SuppressWarnings({"PMD.TooManyStaticImports",
+    "PMD.TooManyMethods"})
 @RunWith(SpringJUnit4ClassRunner.class)
 public class BaseCrudServiceImplTest {
 
@@ -297,6 +301,8 @@ public class BaseCrudServiceImplTest {
         .thenReturn(testEntity);
 
     boolean result = testCrudService.delete(id);
+
+    assertTrue(result);
 
     verify(testRepository, times(1))
         .findOne(id);

@@ -1,12 +1,13 @@
 package com.teammental.meconfig.testapp;
 
+import com.teammental.meconfig.config.TestControllerConfig;
 import com.teammental.meconfig.web.controller.BaseCrudController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping(TestControllerConfig.URL)
 public class TestCrudController extends BaseCrudController<TestCrudService, TestDto, Integer> {
 
   @Autowired
@@ -21,7 +22,7 @@ public class TestCrudController extends BaseCrudController<TestCrudService, Test
   @Override
   protected String getMappingUrlOfController() {
 
-    return "/";
+    return TestControllerConfig.URL;
   }
 
 }

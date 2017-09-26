@@ -2,11 +2,16 @@ package com.teammental.meconfig.testapp;
 
 import com.teammental.meconfig.dto.IdDto;
 import com.teammental.memapper.util.StringUtil;
+
 import java.util.Random;
+
+import javax.validation.constraints.NotNull;
 
 public class TestDto implements IdDto<Integer> {
 
   private Integer id;
+
+  @NotNull
   private String name;
 
   @Override
@@ -31,6 +36,10 @@ public class TestDto implements IdDto<Integer> {
     this.name = name;
   }
 
+  /**
+   * Generates a random TestDto object.
+   * @return testdto
+   */
   public static TestDto buildRandom() {
 
     Random random = new Random();

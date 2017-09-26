@@ -1,13 +1,15 @@
 package com.teammental.meconfig.testapp;
 
 import com.teammental.memapper.util.StringUtil;
+
 import java.util.Random;
+
 import javax.persistence.Entity;
 
 @Entity
 public class TestEntity {
-private Integer id;
-private String name;
+  private Integer id;
+  private String name;
 
   public Integer getId() {
 
@@ -29,6 +31,10 @@ private String name;
     this.name = name;
   }
 
+  /**
+   * Generates a random TestEntity object.
+   * @return testEntity
+   */
   public static TestEntity buildRandom() {
     Random random = new Random();
     TestEntity testEntity = new TestEntity();
